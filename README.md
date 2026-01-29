@@ -1,4 +1,3764 @@
 #DSA Solutions:-
+
+Q.)Check if a number is prime
+public class PrimeCheck {
+    public static void main(String[] args) {
+        int n = 29; // number to check
+        boolean isPrime = true;
+
+        if (n <= 1) isPrime = false;
+        else {
+            for (int i = 2; i < n; i++) {
+                if (n % i == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+        }
+
+        System.out.println(n + (isPrime ? " is prime" : " is not prime"));
+    }
+}
+-------------or----------------
+public class PrimeCheck {
+    public static boolean isPrime(int n) {
+        // Handle edge cases
+        if (n <= 1) return false;   // 0 and 1 are not prime
+        if (n == 2) return true;    // 2 is prime
+        if (n % 2 == 0) return false; // even numbers > 2 are not prime
+
+        // Check divisibility up to √n
+        for (int i = 3; i <= Math.sqrt(n); i += 2) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        int number = 29;
+        if (isPrime(number)) {
+            System.out.println(number + " is a prime number.");
+        } else {
+            System.out.println(number + " is not a prime number.");
+        }
+    }
+}
+Q.)
+DSA Practice Set - Complete Solutions
+I'll provide sequential solutions for each question: from simplest to more optimized approaches.
+________________________________________
+Q1. Find the Second Largest Element in an Array
+Solution 1: Sort and Return (Simplest)
+java
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SecondLargestSort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        // Sort array
+        Arrays.sort(arr);
+        
+        // Find second largest (different from largest)
+        int largest = arr[n - 1];
+        int secondLargest = -1;
+        
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] != largest) {
+                secondLargest = arr[i];
+                break;
+            }
+        }
+        
+        System.out.println(secondLargest);
+        
+        sc.close();
+    }
+}
+Solution 2: Two Variables (Better)
+java
+import java.util.Scanner;
+
+public class SecondLargestTwoVar {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+        
+        // First pass - find largest
+        for (int i = 0; i < n; i++) {
+            if (arr[i] > largest) {
+                largest = arr[i];
+            }
+        }
+        
+        // Second pass - find second largest
+        for (int i = 0; i < n; i++) {
+            if (arr[i] > secondLargest && arr[i] != largest) {
+                secondLargest = arr[i];
+            }
+        }
+        
+        System.out.println(secondLargest);
+        
+        sc.close();
+    }
+}
+Solution 3: Single Pass (Optimal)
+java
+import java.util.Scanner;
+
+public class SecondLargestOptimal {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+        
+        for (int num : arr) {
+            if (num > largest) {
+                secondLargest = largest;
+                largest = num;
+            } else if (num > secondLargest && num != largest) {
+                secondLargest = num;
+            }
+        }
+        
+        System.out.println(secondLargest);
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n log n) for sort, O(n) for optimal
+Space Complexity: O(1)
+________________________________________
+Q2. Check if a Given String is a Palindrome
+Solution 1: Reverse and Compare (Simplest)
+java
+import java.util.Scanner;
+
+public class PalindromeReverse {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        String reversed = "";
+        
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversed += str.charAt(i);
+        }
+        
+        if (str.equals(reversed)) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Two Pointer (Better)
+java
+import java.util.Scanner;
+
+public class PalindromeTwoPointer {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        int left = 0;
+        int right = str.length() - 1;
+        boolean isPalindrome = true;
+        
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                isPalindrome = false;
+                break;
+            }
+            left++;
+            right--;
+        }
+        
+        if (isPalindrome) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: Using StringBuilder (Built-in)
+java
+import java.util.Scanner;
+
+public class PalindromeStringBuilder {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        String reversed = new StringBuilder(str).reverse().toString();
+        
+        if (str.equals(reversed)) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n) for Solution 1 & 3, O(1) for Solution 2
+________________________________________
+Q3. Find the Missing Number from an Array of 1 to N
+Solution 1: Using Boolean Array (Simplest)
+java
+import java.util.Scanner;
+
+public class MissingNumberBoolean {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n - 1];
+        
+        for (int i = 0; i < n - 1; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        boolean[] present = new boolean[n + 1];
+        
+        for (int i = 0; i < n - 1; i++) {
+            present[arr[i]] = true;
+        }
+        
+        for (int i = 1; i <= n; i++) {
+            if (!present[i]) {
+                System.out.println(i);
+                break;
+            }
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Using Sum Formula (Better)
+java
+import java.util.Scanner;
+
+public class MissingNumberSum {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n - 1];
+        
+        for (int i = 0; i < n - 1; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        // Expected sum: 1 + 2 + ... + n = n*(n+1)/2
+        int expectedSum = n * (n + 1) / 2;
+        
+        int actualSum = 0;
+        for (int i = 0; i < n - 1; i++) {
+            actualSum += arr[i];
+        }
+        
+        System.out.println(expectedSum - actualSum);
+        
+        sc.close();
+    }
+}
+Solution 3: Using XOR (Optimal)
+java
+import java.util.Scanner;
+
+public class MissingNumberXOR {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n - 1];
+        
+        for (int i = 0; i < n - 1; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int xor1 = 0, xor2 = 0;
+        
+        // XOR of all numbers from 1 to n
+        for (int i = 1; i <= n; i++) {
+            xor1 ^= i;
+        }
+        
+        // XOR of all array elements
+        for (int i = 0; i < n - 1; i++) {
+            xor2 ^= arr[i];
+        }
+        
+        // Missing number
+        System.out.println(xor1 ^ xor2);
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n) for Solution 1, O(1) for Solution 2 & 3
+________________________________________
+Q4. Reverse a String Without Using Built-in Functions
+Solution 1: Using Loop (Simplest)
+java
+import java.util.Scanner;
+
+public class ReverseStringLoop {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        String reversed = "";
+        
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversed = reversed + str.charAt(i);
+        }
+        
+        System.out.println(reversed);
+        
+        sc.close();
+    }
+}
+Solution 2: Using Character Array (Better)
+java
+import java.util.Scanner;
+
+public class ReverseStringCharArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        char[] chars = str.toCharArray();
+        int left = 0;
+        int right = chars.length - 1;
+        
+        while (left < right) {
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            left++;
+            right--;
+        }
+        
+        System.out.println(new String(chars));
+        
+        sc.close();
+    }
+}
+Solution 3: Using Recursion (Alternative)
+java
+import java.util.Scanner;
+
+public class ReverseStringRecursion {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        String reversed = reverse(str);
+        System.out.println(reversed);
+        
+        sc.close();
+    }
+    
+    static String reverse(String str) {
+        if (str.isEmpty()) {
+            return str;
+        }
+        
+        return reverse(str.substring(1)) + str.charAt(0);
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n)
+________________________________________
+Q5. Count the Number of Vowels in a String
+Solution 1: Using Loop (Simplest)
+java
+import java.util.Scanner;
+
+public class CountVowelsSimple {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine().toLowerCase();
+        
+        int count = 0;
+        
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            
+            if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                count++;
+            }
+        }
+        
+        System.out.println(count);
+        
+        sc.close();
+    }
+}
+Solution 2: Using indexOf (Better)
+java
+import java.util.Scanner;
+
+public class CountVowelsIndexOf {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine().toLowerCase();
+        
+        String vowels = "aeiou";
+        int count = 0;
+        
+        for (int i = 0; i < str.length(); i++) {
+            if (vowels.indexOf(str.charAt(i)) != -1) {
+                count++;
+            }
+        }
+        
+        System.out.println(count);
+        
+        sc.close();
+    }
+}
+Solution 3: Using HashSet (Optimal)
+java
+import java.util.HashSet;
+import java.util.Scanner;
+
+public class CountVowelsHashSet {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine().toLowerCase();
+        
+        HashSet<Character> vowels = new HashSet<>();
+        vowels.add('a');
+        vowels.add('e');
+        vowels.add('i');
+        vowels.add('o');
+        vowels.add('u');
+        
+        int count = 0;
+        
+        for (char ch : str.toCharArray()) {
+            if (vowels.contains(ch)) {
+                count++;
+            }
+        }
+        
+        System.out.println(count);
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(1)
+________________________________________
+Q6. Maximum Sum of Contiguous Subarray (Kadane's Algorithm)
+Solution 1: Brute Force (Simplest)
+java
+import java.util.Scanner;
+
+public class MaxSubarraySumBrute {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int maxSum = Integer.MIN_VALUE;
+        
+        for (int i = 0; i < n; i++) {
+            int sum = 0;
+            for (int j = i; j < n; j++) {
+                sum += arr[j];
+                maxSum = Math.max(maxSum, sum);
+            }
+        }
+        
+        System.out.println(maxSum);
+        
+        sc.close();
+    }
+}
+Solution 2: Kadane's Algorithm (Optimal)
+java
+import java.util.Scanner;
+
+public class MaxSubarraySumKadane {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int maxSum = arr[0];
+        int currentSum = arr[0];
+        
+        for (int i = 1; i < n; i++) {
+            currentSum = Math.max(arr[i], currentSum + arr[i]);
+            maxSum = Math.max(maxSum, currentSum);
+        }
+        
+        System.out.println(maxSum);
+        
+        sc.close();
+    }
+}
+Solution 3: Kadane's with Subarray Indices
+java
+import java.util.Scanner;
+
+public class MaxSubarraySumWithIndices {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int maxSum = arr[0];
+        int currentSum = arr[0];
+        int start = 0, end = 0, tempStart = 0;
+        
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > currentSum + arr[i]) {
+                currentSum = arr[i];
+                tempStart = i;
+            } else {
+                currentSum = currentSum + arr[i];
+            }
+            
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+                start = tempStart;
+                end = i;
+            }
+        }
+        
+        System.out.println("Max Sum: " + maxSum);
+        System.out.println("Subarray: [" + start + ", " + end + "]");
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n²) for brute force, O(n) for Kadane's
+Space Complexity: O(1)
+________________________________________
+Q7. Move All Zeroes to the End of Array
+Solution 1: Using Extra Array (Simplest)
+java
+import java.util.Scanner;
+
+public class MoveZeroesExtraArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int[] result = new int[n];
+        int index = 0;
+        
+        // Copy non-zero elements
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != 0) {
+                result[index++] = arr[i];
+            }
+        }
+        
+        // Remaining positions are already 0
+        for (int i = 0; i < n; i++) {
+            System.out.print(result[i] + " ");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Two Pointer In-Place (Better)
+java
+import java.util.Scanner;
+
+public class MoveZeroesTwoPointer {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int nonZeroIndex = 0;
+        
+        // Move all non-zero elements to front
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != 0) {
+                arr[nonZeroIndex++] = arr[i];
+            }
+        }
+        
+        // Fill remaining with zeros
+        while (nonZeroIndex < n) {
+            arr[nonZeroIndex++] = 0;
+        }
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: Optimal Swap (Best)
+java
+import java.util.Scanner;
+
+public class MoveZeroesOptimal {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int nonZeroIndex = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if (arr[i] != 0) {
+                // Swap
+                int temp = arr[nonZeroIndex];
+                arr[nonZeroIndex] = arr[i];
+                arr[i] = temp;
+                nonZeroIndex++;
+            }
+        }
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n) for Solution 1, O(1) for Solution 2 & 3
+________________________________________
+Q8. Remove Duplicates from Sorted Array
+Solution 1: Using Extra Array (Simplest)
+java
+import java.util.Scanner;
+
+public class RemoveDuplicatesExtraArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int[] result = new int[n];
+        result[0] = arr[0];
+        int index = 1;
+        
+        for (int i = 1; i < n; i++) {
+            if (arr[i] != arr[i - 1]) {
+                result[index++] = arr[i];
+            }
+        }
+        
+        for (int i = 0; i < index; i++) {
+            System.out.print(result[i] + " ");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Two Pointer In-Place (Better)
+java
+import java.util.Scanner;
+
+public class RemoveDuplicatesTwoPointer {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        if (n == 0) {
+            sc.close();
+            return;
+        }
+        
+        int uniqueIndex = 0;
+        
+        for (int i = 1; i < n; i++) {
+            if (arr[i] != arr[uniqueIndex]) {
+                uniqueIndex++;
+                arr[uniqueIndex] = arr[i];
+            }
+        }
+        
+        for (int i = 0; i <= uniqueIndex; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: Using HashSet (Alternative)
+java
+import java.util.*;
+
+public class RemoveDuplicatesHashSet {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        LinkedHashSet<Integer> set = new LinkedHashSet<>();
+        
+        for (int num : arr) {
+            set.add(num);
+        }
+        
+        for (int num : set) {
+            System.out.print(num + " ");
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n) for Solution 1 & 3, O(1) for Solution 2
+________________________________________
+Q9. Implement Binary Search on Sorted Array
+Solution 1: Linear Search (For Comparison)
+java
+import java.util.Scanner;
+
+public class LinearSearchComparison {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        int index = -1;
+        
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == key) {
+                index = i;
+                break;
+            }
+        }
+        
+        if (index != -1) {
+            System.out.println("Index " + index);
+        } else {
+            System.out.println("Not found");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Binary Search Iterative (Better)
+java
+import java.util.Scanner;
+
+public class BinarySearchIterative {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int left = 0;
+        int right = n - 1;
+        int index = -1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (arr[mid] == key) {
+                index = mid;
+                break;
+            } else if (arr[mid] < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        if (index != -1) {
+            System.out.println("Index " + index);
+        } else {
+            System.out.println("Not found");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: Binary Search Recursive (Alternative)
+java
+import java.util.Scanner;
+
+public class BinarySearchRecursive {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int index = binarySearch(arr, 0, n - 1, key);
+        
+        if (index != -1) {
+            System.out.println("Index " + index);
+        } else {
+            System.out.println("Not found");
+        }
+        
+        sc.close();
+    }
+    
+    static int binarySearch(int[] arr, int left, int right, int key) {
+        if (left > right) {
+            return -1;
+        }
+        
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] == key) {
+            return mid;
+        } else if (arr[mid] < key) {
+            return binarySearch(arr, mid + 1, right, key);
+        } else {
+            return binarySearch(arr, left, mid - 1, key);
+        }
+    }
+}
+Time Complexity: O(n) for linear, O(log n) for binary search
+Space Complexity: O(1) for iterative, O(log n) for recursive
+________________________________________
+Q10. Check if Two Strings are Anagrams
+Solution 1: Sort and Compare (Simplest)
+java
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class AnagramSort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        String str1 = sc.nextLine();
+        String str2 = sc.nextLine();
+        
+        if (str1.length() != str2.length()) {
+            System.out.println("No");
+            sc.close();
+            return;
+        }
+        
+        char[] arr1 = str1.toCharArray();
+        char[] arr2 = str2.toCharArray();
+        
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        
+        if (Arrays.equals(arr1, arr2)) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Using Frequency Array (Better)
+java
+import java.util.Scanner;
+
+public class AnagramFrequency {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        String str1 = sc.nextLine();
+        String str2 = sc.nextLine();
+        
+        if (str1.length() != str2.length()) {
+            System.out.println("No");
+            sc.close();
+            return;
+        }
+        
+        int[] count = new int[26];
+        
+        for (int i = 0; i < str1.length(); i++) {
+            count[str1.charAt(i) - 'a']++;
+            count[str2.charAt(i) - 'a']--;
+        }
+        
+        boolean isAnagram = true;
+        for (int i = 0; i < 26; i++) {
+            if (count[i] != 0) {
+                isAnagram = false;
+                break;
+            }
+        }
+        
+        if (isAnagram) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: Using HashMap (Most Flexible)
+java
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class AnagramHashMap {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        String str1 = sc.nextLine();
+        String str2 = sc.nextLine();
+        
+        if (str1.length() != str2.length()) {
+            System.out.println("No");
+            sc.close();
+            return;
+        }
+        
+        HashMap<Character, Integer> map = new HashMap<>();
+        
+        for (char ch : str1.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+        
+        for (char ch : str2.toCharArray()) {
+            if (!map.containsKey(ch)) {
+                System.out.println("No");
+                sc.close();
+                return;
+            }
+            
+            map.put(ch, map.get(ch) - 1);
+            
+            if (map.get(ch) == 0) {
+                map.remove(ch);
+            }
+        }
+        
+        if (map.isEmpty()) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n log n) for sort, O(n) for frequency/hashmap
+Space Complexity: O(1) for frequency (fixed size), O(n) for hashmap
+Continuing DSA Practice Set (Q11-Q20)
+________________________________________
+Q11. Find the Intersection of Two Arrays
+Solution 1: Brute Force (Simplest)
+java
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class IntersectionBruteForce {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n1 = sc.nextInt();
+        int[] arr1 = new int[n1];
+        for (int i = 0; i < n1; i++) {
+            arr1[i] = sc.nextInt();
+        }
+        
+        int n2 = sc.nextInt();
+        int[] arr2 = new int[n2];
+        for (int i = 0; i < n2; i++) {
+            arr2[i] = sc.nextInt();
+        }
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        boolean[] used = new boolean[n2];
+        
+        for (int i = 0; i < n1; i++) {
+            for (int j = 0; j < n2; j++) {
+                if (arr1[i] == arr2[j] && !used[j]) {
+                    result.add(arr1[i]);
+                    used[j] = true;
+                    break;
+                }
+            }
+        }
+        
+        System.out.print("[");
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            if (i < result.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
+        
+        sc.close();
+    }
+}
+Solution 2: Using HashSet (Better)
+java
+import java.util.*;
+
+public class IntersectionHashSet {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n1 = sc.nextInt();
+        int[] arr1 = new int[n1];
+        for (int i = 0; i < n1; i++) {
+            arr1[i] = sc.nextInt();
+        }
+        
+        int n2 = sc.nextInt();
+        int[] arr2 = new int[n2];
+        for (int i = 0; i < n2; i++) {
+            arr2[i] = sc.nextInt();
+        }
+        
+        HashSet<Integer> set1 = new HashSet<>();
+        for (int num : arr1) {
+            set1.add(num);
+        }
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int num : arr2) {
+            if (set1.contains(num)) {
+                result.add(num);
+                set1.remove(num); // Avoid duplicates
+            }
+        }
+        
+        System.out.print("[");
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            if (i < result.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
+        
+        sc.close();
+    }
+}
+Solution 3: Two Pointer (For Sorted Arrays - Optimal)
+java
+import java.util.*;
+
+public class IntersectionTwoPointer {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n1 = sc.nextInt();
+        int[] arr1 = new int[n1];
+        for (int i = 0; i < n1; i++) {
+            arr1[i] = sc.nextInt();
+        }
+        
+        int n2 = sc.nextInt();
+        int[] arr2 = new int[n2];
+        for (int i = 0; i < n2; i++) {
+            arr2[i] = sc.nextInt();
+        }
+        
+        // Sort both arrays
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        int i = 0, j = 0;
+        
+        while (i < n1 && j < n2) {
+            if (arr1[i] < arr2[j]) {
+                i++;
+            } else if (arr1[i] > arr2[j]) {
+                j++;
+            } else {
+                result.add(arr1[i]);
+                i++;
+                j++;
+            }
+        }
+        
+        System.out.print("[");
+        for (int k = 0; k < result.size(); k++) {
+            System.out.print(result.get(k));
+            if (k < result.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n*m) brute force, O(n+m) hashset, O(n log n + m log m) two pointer
+Space Complexity: O(n) for hashset
+________________________________________
+Q12. Find First Non-Repeating Character
+Solution 1: Brute Force (Simplest)
+java
+import java.util.Scanner;
+
+public class FirstNonRepeatingBrute {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        char result = '\0';
+        
+        for (int i = 0; i < str.length(); i++) {
+            boolean isUnique = true;
+            
+            for (int j = 0; j < str.length(); j++) {
+                if (i != j && str.charAt(i) == str.charAt(j)) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            
+            if (isUnique) {
+                result = str.charAt(i);
+                break;
+            }
+        }
+        
+        if (result != '\0') {
+            System.out.println(result);
+        } else {
+            System.out.println("No non-repeating character");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Using Frequency Array (Better)
+java
+import java.util.Scanner;
+
+public class FirstNonRepeatingFrequency {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        int[] freq = new int[256]; // For all ASCII characters
+        
+        // Count frequency
+        for (int i = 0; i < str.length(); i++) {
+            freq[str.charAt(i)]++;
+        }
+        
+        // Find first character with frequency 1
+        char result = '\0';
+        for (int i = 0; i < str.length(); i++) {
+            if (freq[str.charAt(i)] == 1) {
+                result = str.charAt(i);
+                break;
+            }
+        }
+        
+        if (result != '\0') {
+            System.out.println(result);
+        } else {
+            System.out.println("No non-repeating character");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: Using LinkedHashMap (Most Flexible)
+java
+import java.util.*;
+
+public class FirstNonRepeatingHashMap {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        LinkedHashMap<Character, Integer> map = new LinkedHashMap<>();
+        
+        // Count frequency
+        for (char ch : str.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+        
+        // Find first character with frequency 1
+        char result = '\0';
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == 1) {
+                result = entry.getKey();
+                break;
+            }
+        }
+        
+        if (result != '\0') {
+            System.out.println(result);
+        } else {
+            System.out.println("No non-repeating character");
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n²) brute force, O(n) frequency/hashmap
+Space Complexity: O(1) for frequency, O(n) for hashmap
+________________________________________
+Q13. Rotate Array to Right by K Steps
+Solution 1: Using Extra Array (Simplest)
+java
+import java.util.Scanner;
+
+public class RotateArrayExtra {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int k = sc.nextInt();
+        k = k % n; // Handle k > n
+        
+        int[] rotated = new int[n];
+        
+        // Place last k elements at beginning
+        for (int i = 0; i < k; i++) {
+            rotated[i] = arr[n - k + i];
+        }
+        
+        // Place remaining elements
+        for (int i = 0; i < n - k; i++) {
+            rotated[k + i] = arr[i];
+        }
+        
+        for (int num : rotated) {
+            System.out.print(num + " ");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Manual Reversal (Better)
+java
+import java.util.Scanner;
+
+public class RotateArrayManual {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int k = sc.nextInt();
+        k = k % n;
+        
+        // Reverse entire array
+        reverse(arr, 0, n - 1);
+        
+        // Reverse first k elements
+        reverse(arr, 0, k - 1);
+        
+        // Reverse remaining elements
+        reverse(arr, k, n - 1);
+        
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        
+        sc.close();
+    }
+    
+    static void reverse(int[] arr, int start, int end) {
+        while (start < end) {
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
+Solution 3: Cyclic Replacement (Optimal)
+java
+import java.util.Scanner;
+
+public class RotateArrayCyclic {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int k = sc.nextInt();
+        k = k % n;
+        
+        int count = 0;
+        
+        for (int start = 0; count < n; start++) {
+            int current = start;
+            int prev = arr[start];
+            
+            do {
+                int next = (current + k) % n;
+                int temp = arr[next];
+                arr[next] = prev;
+                prev = temp;
+                current = next;
+                count++;
+            } while (start != current);
+        }
+        
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n) for Solution 1, O(1) for Solution 2 & 3
+________________________________________
+Q14. Sort Array Using Selection Sort
+Solution 1: Basic Selection Sort (Simplest)
+java
+import java.util.Scanner;
+
+public class SelectionSortBasic {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        // Selection Sort
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            
+            // Find minimum in unsorted part
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            
+            // Swap
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
+        }
+        
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: With Swap Count (Educational)
+java
+import java.util.Scanner;
+
+public class SelectionSortWithCount {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int swapCount = 0;
+        
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            
+            if (minIndex != i) {
+                int temp = arr[minIndex];
+                arr[minIndex] = arr[i];
+                arr[i] = temp;
+                swapCount++;
+            }
+        }
+        
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println("\nSwaps: " + swapCount);
+        
+        sc.close();
+    }
+}
+Solution 3: Descending Order
+java
+import java.util.Scanner;
+
+public class SelectionSortDescending {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        for (int i = 0; i < n - 1; i++) {
+            int maxIndex = i;
+            
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] > arr[maxIndex]) { // Changed to > for descending
+                    maxIndex = j;
+                }
+            }
+            
+            int temp = arr[maxIndex];
+            arr[maxIndex] = arr[i];
+            arr[i] = temp;
+        }
+        
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n²)
+Space Complexity: O(1)
+________________________________________
+Q15. Check for Balanced Parentheses Using Stack
+Solution 1: Using Manual Stack (Array-based - Simplest)
+java
+import java.util.Scanner;
+
+public class BalancedParenthesesManual {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        char[] stack = new char[str.length()];
+        int top = -1;
+        boolean isBalanced = true;
+        
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            
+            if (ch == '(' || ch == '{' || ch == '[') {
+                // Push
+                stack[++top] = ch;
+            } else if (ch == ')' || ch == '}' || ch == ']') {
+                // Check if stack is empty
+                if (top == -1) {
+                    isBalanced = false;
+                    break;
+                }
+                
+                // Pop and check
+                char topChar = stack[top--];
+                
+                if ((ch == ')' && topChar != '(') ||
+                    (ch == '}' && topChar != '{') ||
+                    (ch == ']' && topChar != '[')) {
+                    isBalanced = false;
+                    break;
+                }
+            }
+        }
+        
+        // Check if stack is empty at end
+        if (top != -1) {
+            isBalanced = false;
+        }
+        
+        if (isBalanced) {
+            System.out.println("Balanced");
+        } else {
+            System.out.println("Not Balanced");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Using Stack Class (Better)
+java
+import java.util.Scanner;
+import java.util.Stack;
+
+public class BalancedParenthesesStack {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        Stack<Character> stack = new Stack<>();
+        boolean isBalanced = true;
+        
+        for (char ch : str.toCharArray()) {
+            if (ch == '(' || ch == '{' || ch == '[') {
+                stack.push(ch);
+            } else if (ch == ')' || ch == '}' || ch == ']') {
+                if (stack.isEmpty()) {
+                    isBalanced = false;
+                    break;
+                }
+                
+                char top = stack.pop();
+                
+                if ((ch == ')' && top != '(') ||
+                    (ch == '}' && top != '{') ||
+                    (ch == ']' && top != '[')) {
+                    isBalanced = false;
+                    break;
+                }
+            }
+        }
+        
+        if (!stack.isEmpty()) {
+            isBalanced = false;
+        }
+        
+        if (isBalanced) {
+            System.out.println("Balanced");
+        } else {
+            System.out.println("Not Balanced");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: With Helper Method (Clean)
+java
+import java.util.Scanner;
+import java.util.Stack;
+
+public class BalancedParenthesesClean {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        if (isBalanced(str)) {
+            System.out.println("Balanced");
+        } else {
+            System.out.println("Not Balanced");
+        }
+        
+        sc.close();
+    }
+    
+    static boolean isBalanced(String str) {
+        Stack<Character> stack = new Stack<>();
+        
+        for (char ch : str.toCharArray()) {
+            if (ch == '(' || ch == '{' || ch == '[') {
+                stack.push(ch);
+            } else if (ch == ')' || ch == '}' || ch == ']') {
+                if (stack.isEmpty() || !isMatchingPair(stack.pop(), ch)) {
+                    return false;
+                }
+            }
+        }
+        
+        return stack.isEmpty();
+    }
+    
+    static boolean isMatchingPair(char open, char close) {
+        return (open == '(' && close == ')') ||
+               (open == '{' && close == '}') ||
+               (open == '[' && close == ']');
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n)
+________________________________________
+Q16. Implement Factorial Using Recursion
+Solution 1: Simple Recursion
+java
+import java.util.Scanner;
+
+public class FactorialRecursive {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        long result = factorial(n);
+        System.out.println(result);
+        
+        sc.close();
+    }
+    
+    static long factorial(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        
+        return n * factorial(n - 1);
+    }
+}
+Solution 2: Iterative (For Comparison)
+java
+import java.util.Scanner;
+
+public class FactorialIterative {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        long result = 1;
+        
+        for (int i = 2; i <= n; i++) {
+            result *= i;
+        }
+        
+        System.out.println(result);
+        
+        sc.close();
+    }
+}
+Solution 3: Tail Recursion (Optimized)
+java
+import java.util.Scanner;
+
+public class FactorialTailRecursion {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        long result = factorial(n, 1);
+        System.out.println(result);
+        
+        sc.close();
+    }
+    
+    static long factorial(int n, long accumulator) {
+        if (n == 0 || n == 1) {
+            return accumulator;
+        }
+        
+        return factorial(n - 1, n * accumulator);
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(n) for recursion stack, O(1) for iterative
+________________________________________
+Q17. Print Fibonacci Series Up to N Terms Using Recursion
+Solution 1: Simple Recursion (Inefficient)
+java
+import java.util.Scanner;
+
+public class FibonacciRecursiveSimple {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(fibonacci(i) + " ");
+        }
+        
+        sc.close();
+    }
+    
+    static int fibonacci(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+        
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+}
+Solution 2: With Memoization (Better)
+java
+import java.util.Scanner;
+
+public class FibonacciMemoization {
+    static int[] memo;
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        memo = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(fibonacci(i) + " ");
+        }
+        
+        sc.close();
+    }
+    
+    static int fibonacci(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+        
+        if (memo[n] != 0) {
+            return memo[n];
+        }
+        
+        memo[n] = fibonacci(n - 1) + fibonacci(n - 2);
+        return memo[n];
+    }
+}
+Solution 3: Iterative (Most Efficient)
+java
+import java.util.Scanner;
+
+public class FibonacciIterative {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        if (n == 0) {
+            sc.close();
+            return;
+        }
+        
+        int a = 0, b = 1;
+        
+        System.out.print(a + " ");
+        
+        for (int i = 1; i < n; i++) {
+            System.out.print(b + " ");
+            int next = a + b;
+            a = b;
+            b = next;
+        }
+        
+        sc.close();
+    }
+}
+Time Complexity: O(2^n) simple recursion, O(n) memoization/iterative
+Space Complexity: O(n) for memoization, O(1) for iterative
+________________________________________
+Q18. Find Longest Common Prefix
+Solution 1: Horizontal Scanning (Simplest)
+java
+import java.util.Scanner;
+
+public class LongestCommonPrefixHorizontal {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        sc.nextLine();
+        
+        String[] strs = new String[n];
+        for (int i = 0; i < n; i++) {
+            strs[i] = sc.nextLine();
+        }
+        
+        if (n == 0) {
+            System.out.println("");
+            sc.close();
+            return;
+        }
+        
+        String prefix = strs[0];
+        
+        for (int i = 1; i < n; i++) {
+            while (strs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                if (prefix.isEmpty()) {
+                    System.out.println("");
+                    sc.close();
+                    return;
+                }
+            }
+        }
+        
+        System.out.println(prefix);
+        
+        sc.close();
+    }
+}
+Solution 2: Vertical Scanning (Better)
+java
+import java.util.Scanner;
+
+public class LongestCommonPrefixVertical {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        sc.nextLine();
+        
+        String[] strs = new String[n];
+        for (int i = 0; i < n; i++) {
+            strs[i] = sc.nextLine();
+        }
+        
+        if (n == 0) {
+            System.out.println("");
+            sc.close();
+            return;
+        }
+        
+        for (int i = 0; i < strs[0].length(); i++) {
+            char ch = strs[0].charAt(i);
+            
+            for (int j = 1; j < n; j++) {
+                if (i >= strs[j].length() || strs[j].charAt(i) != ch) {
+                    System.out.println(strs[0].substring(0, i));
+                    sc.close();
+                    return;
+                }
+            }
+        }
+        
+        System.out.println(strs[0]);
+        
+        sc.close();
+    }
+}
+Solution 3: Character-by-Character (Clean)
+java
+import java.util.Scanner;
+
+public class LongestCommonPrefixClean {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        sc.nextLine();
+        
+        String[] strs = new String[n];
+        for (int i = 0; i < n; i++) {
+            strs[i] = sc.nextLine();
+        }
+        
+        String result = longestCommonPrefix(strs);
+        System.out.println(result);
+        
+        sc.close();
+    }
+    
+    static String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        
+        String prefix = strs[0];
+        
+        for (int i = 1; i < strs.length; i++) {
+            int j = 0;
+            
+            while (j < prefix.length() && j < strs[i].length() && 
+                   prefix.charAt(j) == strs[i].charAt(j)) {
+                j++;
+            }
+            
+            prefix = prefix.substring(0, j);
+            
+            if (prefix.isEmpty()) {
+                return "";
+            }
+        }
+        
+        return prefix;
+    }
+}
+Time Complexity: O(S) where S is sum of all characters
+Space Complexity: O(1)
+________________________________________
+Q19. Reverse a Linked List
+Solution 1: Iterative (3-Pointer - Simplest)
+java
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+    
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class ReverseLinkedListIterative {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        Node head = null;
+        Node tail = null;
+        
+        for (int i = 0; i < n; i++) {
+            int data = sc.nextInt();
+            Node newNode = new Node(data);
+            
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+        
+        head = reverse(head);
+        
+        printList(head);
+        
+        sc.close();
+    }
+    
+    static Node reverse(Node head) {
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+        
+        while (current != null) {
+            next = current.next;  // Store next
+            current.next = prev;  // Reverse link
+            prev = current;       // Move prev
+            current = next;       // Move current
+        }
+        
+        return prev;
+    }
+    
+    static void printList(Node head) {
+        while (head != null) {
+            System.out.print(head.data);
+            if (head.next != null) System.out.print(" -> ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+}
+Solution 2: Recursive (Better for understanding)
+java
+public class ReverseLinkedListRecursive {
+    
+    static Node reverse(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        
+        Node newHead = reverse(head.next);
+        head.next.next = head;
+        head.next = null;
+        
+        return newHead;
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        Node head = null;
+        Node tail = null;
+        
+        for (int i = 0; i < n; i++) {
+            int data = sc.nextInt();
+            Node newNode = new Node(data);
+            
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+        
+        head = reverse(head);
+        
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data);
+            if (temp.next != null) System.out.print(" -> ");
+            temp = temp.next;
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+Solution 3: Using Stack (Alternative)
+java
+import java.util.Scanner;
+import java.util.Stack;
+
+public class ReverseLinkedListStack {
+    
+    static Node reverse(Node head) {
+        if (head == null) return null;
+        
+        Stack<Node> stack = new Stack<>();
+        Node temp = head;
+        
+        // Push all nodes to stack
+        while (temp != null) {
+            stack.push(temp);
+            temp = temp.next;
+        }
+        
+        // Pop and rebuild
+        head = stack.pop();
+        temp = head;
+        
+        while (!stack.isEmpty()) {
+            temp.next = stack.pop();
+            temp = temp.next;
+        }
+        
+        temp.next = null;
+        
+        return head;
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        Node head = null;
+        Node tail = null;
+        
+        for (int i = 0; i < n; i++) {
+            int data = sc.nextInt();
+            Node newNode = new Node(data);
+            
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+        
+        head = reverse(head);
+        
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data);
+            if (temp.next != null) System.out.print(" -> ");
+            temp = temp.next;
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(1) for iterative, O(n) for recursive/stack
+________________________________________
+Q20. Check if a Number is Prime
+Solution 1: Basic Check (Simplest)
+java
+import java.util.Scanner;
+
+public class PrimeCheckBasic {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        if (n <= 1) {
+            System.out.println("No");
+            sc.close();
+            return;
+        }
+        
+        boolean isPrime = true;
+        
+        for (int i = 2; i < n; i++) {
+            if (n % i == 0) {
+                isPrime = false;
+                break;
+            }
+        }
+        
+        if (isPrime) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Check up to n/2 (Better)
+java
+import java.util.Scanner;
+
+public class PrimeCheckHalf {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        if (n <= 1) {
+            System.out.println("No");
+            sc.close();
+            return;
+        }
+        
+        if (n == 2) {
+            System.out.println("Yes");
+            sc.close();
+            return;
+        }
+        
+        boolean isPrime = true;
+        
+        for (int i = 2; i <= n / 2; i++) {
+            if (n % i == 0) {
+                isPrime = false;
+                break;
+            }
+        }
+        
+        if (isPrime) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+}
+Solution 3: Check up to √n (Optimal)
+java
+import java.util.Scanner;
+
+public class PrimeCheckOptimal {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        if (isPrime(n)) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+        sc.close();
+    }
+    
+    static boolean isPrime(int n) {
+        if (n <= 1) {
+            return false;
+        }
+        
+        if (n == 2) {
+            return true;
+        }
+        
+        if (n % 2 == 0) {
+            return false;
+        }
+        
+        // Check odd divisors up to √n
+        for (int i = 3; i * i <= n; i += 2) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
+Time Complexity: O(n) basic, O(n/2) half, O(√n) optimal
+Space Complexity: O(1)
+DSA Lab Exam Practice Questions - Complete Solutions
+I'll provide multiple solution approaches for each of the 15 questions.
+________________________________________
+Q1. Find Second Largest Element
+Solution 1: Single Pass (Most Efficient)
+java
+import java.util.Scanner;
+
+public class SecondLargestSinglePass {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        if (n < 2) {
+            System.out.println(-1);
+            sc.close();
+            return;
+        }
+        
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+        
+        for (int num : arr) {
+            if (num > largest) {
+                secondLargest = largest;
+                largest = num;
+            } else if (num > secondLargest && num != largest) {
+                secondLargest = num;
+            }
+        }
+        
+        if (secondLargest == Integer.MIN_VALUE) {
+            System.out.println(-1);
+        } else {
+            System.out.println(secondLargest);
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Using Sorting
+java
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SecondLargestSorting {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        
+        if (n < 2) {
+            System.out.println(-1);
+            sc.close();
+            return;
+        }
+        
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        Arrays.sort(arr);
+        
+        // Find second largest (skip duplicates)
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] != arr[n - 1]) {
+                System.out.println(arr[i]);
+                sc.close();
+                return;
+            }
+        }
+        
+        System.out.println(-1);
+        sc.close();
+    }
+}
+Solution 3: Two Pass Approach
+java
+import java.util.Scanner;
+
+public class SecondLargestTwoPass {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        // First pass: find largest
+        int largest = Integer.MIN_VALUE;
+        for (int num : arr) {
+            if (num > largest) {
+                largest = num;
+            }
+        }
+        
+        // Second pass: find second largest
+        int secondLargest = Integer.MIN_VALUE;
+        for (int num : arr) {
+            if (num > secondLargest && num < largest) {
+                secondLargest = num;
+            }
+        }
+        
+        System.out.println(secondLargest == Integer.MIN_VALUE ? -1 : secondLargest);
+        
+        sc.close();
+    }
+}
+________________________________________
+Q2. Reverse an Array
+Solution 1: Two Pointer (In-place)
+java
+import java.util.Scanner;
+
+public class ReverseArrayTwoPointer {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int left = 0, right = n - 1;
+        
+        while (left < right) {
+            // Swap
+            int temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            
+            left++;
+            right--;
+        }
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+Solution 2: Using Extra Array
+java
+import java.util.Scanner;
+
+public class ReverseArrayExtra {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        int[] reversed = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        for (int i = 0; i < n; i++) {
+            reversed[i] = arr[n - 1 - i];
+        }
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(reversed[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+Solution 3: Using Recursion
+java
+import java.util.Scanner;
+
+public class ReverseArrayRecursive {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        reverse(arr, 0, n - 1);
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+    
+    static void reverse(int[] arr, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        
+        int temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+        
+        reverse(arr, left + 1, right - 1);
+    }
+}
+________________________________________
+Q3. Insert Node at Specific Position
+Solution 1: Basic Approach
+java
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+    
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class InsertAtPosition {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        Node head = null, tail = null;
+        
+        for (int i = 0; i < n; i++) {
+            int data = sc.nextInt();
+            Node newNode = new Node(data);
+            
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+        
+        int pos = sc.nextInt();
+        int val = sc.nextInt();
+        
+        head = insertAtPosition(head, pos, val);
+        
+        printList(head);
+        
+        sc.close();
+    }
+    
+    static Node insertAtPosition(Node head, int pos, int val) {
+        Node newNode = new Node(val);
+        
+        if (pos == 1) {
+            newNode.next = head;
+            return newNode;
+        }
+        
+        Node temp = head;
+        for (int i = 1; i < pos - 1 && temp != null; i++) {
+            temp = temp.next;
+        }
+        
+        if (temp != null) {
+            newNode.next = temp.next;
+            temp.next = newNode;
+        }
+        
+        return head;
+    }
+    
+    static void printList(Node head) {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data);
+            if (temp.next != null) System.out.print(" ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+}
+Solution 2: With Error Checking
+java
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+    
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+public class InsertAtPositionSafe {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        Node head = null;
+        
+        for (int i = 0; i < n; i++) {
+            int data = sc.nextInt();
+            head = append(head, data);
+        }
+        
+        int pos = sc.nextInt();
+        int val = sc.nextInt();
+        
+        if (pos < 1 || pos > n + 1) {
+            System.out.println("Invalid position");
+        } else {
+            head = insert(head, pos, val);
+            print(head);
+        }
+        
+        sc.close();
+    }
+    
+    static Node append(Node head, int data) {
+        Node newNode = new Node(data);
+        if (head == null) return newNode;
+        
+        Node temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        temp.next = newNode;
+        return head;
+    }
+    
+    static Node insert(Node head, int pos, int val) {
+        Node newNode = new Node(val);
+        
+        if (pos == 1) {
+            newNode.next = head;
+            return newNode;
+        }
+        
+        Node temp = head;
+        for (int i = 1; i < pos - 1; i++) {
+            temp = temp.next;
+        }
+        
+        newNode.next = temp.next;
+        temp.next = newNode;
+        
+        return head;
+    }
+    
+    static void print(Node head) {
+        while (head != null) {
+            System.out.print(head.data);
+            if (head.next != null) System.out.print(" ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+}
+________________________________________
+Q4. Delete Node by Value
+Solution 1: Basic Deletion
+java
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+    
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+public class DeleteByValue {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        Node head = null, tail = null;
+        
+        for (int i = 0; i < n; i++) {
+            int data = sc.nextInt();
+            Node newNode = new Node(data);
+            
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+        
+        int x = sc.nextInt();
+        
+        head = deleteNode(head, x);
+        
+        if (head == null && n > 0) {
+            System.out.println("Not Found");
+        } else {
+            printList(head);
+        }
+        
+        sc.close();
+    }
+    
+    static Node deleteNode(Node head, int x) {
+        if (head == null) return null;
+        
+        // If head needs to be deleted
+        if (head.data == x) {
+            return head.next;
+        }
+        
+        Node temp = head;
+        while (temp.next != null && temp.next.data != x) {
+            temp = temp.next;
+        }
+        
+        if (temp.next == null) {
+            return null; // Not found
+        }
+        
+        temp.next = temp.next.next;
+        return head;
+    }
+    
+    static void printList(Node head) {
+        while (head != null) {
+            System.out.print(head.data);
+            if (head.next != null) System.out.print(" ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+}
+Solution 2: With Found Flag
+java
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+    Node(int data) { this.data = data; }
+}
+
+public class DeleteByValueFlag {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        Node head = null, tail = null;
+        
+        for (int i = 0; i < n; i++) {
+            Node node = new Node(sc.nextInt());
+            if (head == null) {
+                head = tail = node;
+            } else {
+                tail.next = node;
+                tail = node;
+            }
+        }
+        
+        int x = sc.nextInt();
+        boolean found = false;
+        
+        if (head != null && head.data == x) {
+            head = head.next;
+            found = true;
+        } else {
+            Node temp = head;
+            while (temp != null && temp.next != null) {
+                if (temp.next.data == x) {
+                    temp.next = temp.next.next;
+                    found = true;
+                    break;
+                }
+                temp = temp.next;
+            }
+        }
+        
+        if (!found) {
+            System.out.println("Not Found");
+        } else {
+            Node temp = head;
+            while (temp != null) {
+                System.out.print(temp.data);
+                if (temp.next != null) System.out.print(" ");
+                temp = temp.next;
+            }
+            System.out.println();
+        }
+        
+        sc.close();
+    }
+}
+________________________________________
+Q5. Balanced Parentheses
+Solution 1: Using Stack
+java
+import java.util.Scanner;
+import java.util.Stack;
+
+public class BalancedParentheses {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        if (isBalanced(str)) {
+            System.out.println("Balanced");
+        } else {
+            System.out.println("Not Balanced");
+        }
+        
+        sc.close();
+    }
+    
+    static boolean isBalanced(String str) {
+        Stack<Character> stack = new Stack<>();
+        
+        for (char ch : str.toCharArray()) {
+            if (ch == '(' || ch == '[' || ch == '{') {
+                stack.push(ch);
+            } else if (ch == ')' || ch == ']' || ch == '}') {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                
+                char top = stack.pop();
+                if (!isMatchingPair(top, ch)) {
+                    return false;
+                }
+            }
+        }
+        
+        return stack.isEmpty();
+    }
+    
+    static boolean isMatchingPair(char open, char close) {
+        return (open == '(' && close == ')') ||
+               (open == '[' && close == ']') ||
+               (open == '{' && close == '}');
+    }
+}
+Solution 2: Without Helper Method
+java
+import java.util.Scanner;
+import java.util.Stack;
+
+public class BalancedParenthesesSimple {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        
+        Stack<Character> stack = new Stack<>();
+        boolean balanced = true;
+        
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            
+            if (ch == '(' || ch == '[' || ch == '{') {
+                stack.push(ch);
+            } else if (ch == ')' || ch == ']' || ch == '}') {
+                if (stack.isEmpty()) {
+                    balanced = false;
+                    break;
+                }
+                
+                char top = stack.pop();
+                
+                if ((ch == ')' && top != '(') ||
+                    (ch == ']' && top != '[') ||
+                    (ch == '}' && top != '{')) {
+                    balanced = false;
+                    break;
+                }
+            }
+        }
+        
+        if (!stack.isEmpty()) {
+            balanced = false;
+        }
+        
+        System.out.println(balanced ? "Balanced" : "Not Balanced");
+        
+        sc.close();
+    }
+}
+________________________________________
+Q6. Evaluate Postfix Expression
+Solution 1: Basic Stack Evaluation
+java
+import java.util.Scanner;
+import java.util.Stack;
+
+public class PostfixEvaluation {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String expression = sc.nextLine();
+        String[] tokens = expression.split(" ");
+        
+        Stack<Integer> stack = new Stack<>();
+        
+        for (String token : tokens) {
+            if (isOperator(token)) {
+                int b = stack.pop();
+                int a = stack.pop();
+                int result = performOperation(a, b, token);
+                stack.push(result);
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+        
+        System.out.println(stack.pop());
+        
+        sc.close();
+    }
+    
+    static boolean isOperator(String token) {
+        return token.equals("+") || token.equals("-") || 
+               token.equals("*") || token.equals("/");
+    }
+    
+    static int performOperation(int a, int b, String op) {
+        switch (op) {
+            case "+": return a + b;
+            case "-": return a - b;
+            case "*": return a * b;
+            case "/": return a / b;
+            default: return 0;
+        }
+    }
+}
+Solution 2: Using Character Check
+java
+import java.util.Scanner;
+import java.util.Stack;
+
+public class PostfixEvaluationChar {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] tokens = sc.nextLine().split(" ");
+        
+        Stack<Integer> stack = new Stack<>();
+        
+        for (String token : tokens) {
+            char c = token.charAt(0);
+            
+            if (Character.isDigit(c) || (token.length() > 1)) {
+                stack.push(Integer.parseInt(token));
+            } else {
+                int operand2 = stack.pop();
+                int operand1 = stack.pop();
+                
+                switch (c) {
+                    case '+':
+                        stack.push(operand1 + operand2);
+                        break;
+                    case '-':
+                        stack.push(operand1 - operand2);
+                        break;
+                    case '*':
+                        stack.push(operand1 * operand2);
+                        break;
+                    case '/':
+                        stack.push(operand1 / operand2);
+                        break;
+                }
+            }
+        }
+        
+        System.out.println(stack.pop());
+        
+        sc.close();
+    }
+}
+________________________________________
+Q7. Implement Circular Queue
+Solution 1: Array-based Circular Queue
+java
+import java.util.Scanner;
+
+class CircularQueue {
+    int[] queue;
+    int front, rear, size, capacity;
+    
+    CircularQueue(int capacity) {
+        this.capacity = capacity;
+        queue = new int[capacity];
+        front = -1;
+        rear = -1;
+        size = 0;
+    }
+    
+    void enqueue(int data) {
+        if (size == capacity) {
+            System.out.println("Queue Full");
+            return;
+        }
+        
+        if (front == -1) {
+            front = 0;
+        }
+        
+        rear = (rear + 1) % capacity;
+        queue[rear] = data;
+        size++;
+    }
+    
+    void dequeue() {
+        if (size == 0) {
+            System.out.println("Queue Empty");
+            return;
+        }
+        
+        front = (front + 1) % capacity;
+        size--;
+        
+        if (size == 0) {
+            front = -1;
+            rear = -1;
+        }
+    }
+    
+    void display() {
+        if (size == 0) {
+            System.out.println("Queue Empty");
+            return;
+        }
+        
+        int i = front;
+        for (int count = 0; count < size; count++) {
+            System.out.print(queue[i]);
+            if (count < size - 1) System.out.print(" ");
+            i = (i + 1) % capacity;
+        }
+        System.out.println();
+    }
+}
+
+public class CircularQueueImplementation {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.nextLine();
+        
+        CircularQueue cq = new CircularQueue(n);
+        
+        while (true) {
+            String command = sc.next();
+            
+            if (command.equals("STOP")) {
+                break;
+            } else if (command.equals("ENQUEUE")) {
+                int value = sc.nextInt();
+                cq.enqueue(value);
+            } else if (command.equals("DEQUEUE")) {
+                cq.dequeue();
+            } else if (command.equals("DISPLAY")) {
+                cq.display();
+            }
+        }
+        
+        sc.close();
+    }
+}
+Solution 2: Simplified Version
+java
+import java.util.Scanner;
+
+public class CircularQueueSimple {
+    static int[] queue;
+    static int front = 0, rear = -1, size = 0, capacity;
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        capacity = sc.nextInt();
+        queue = new int[capacity];
+        sc.nextLine();
+        
+        while (sc.hasNext()) {
+            String cmd = sc.next();
+            
+            if (cmd.equals("STOP")) break;
+            
+            switch (cmd) {
+                case "ENQUEUE":
+                    int val = sc.nextInt();
+                    if (size < capacity) {
+                        rear = (rear + 1) % capacity;
+                        queue[rear] = val;
+                        size++;
+                    }
+                    break;
+                    
+                case "DEQUEUE":
+                    if (size > 0) {
+                        front = (front + 1) % capacity;
+                        size--;
+                    }
+                    break;
+                    
+                case "DISPLAY":
+                    if (size > 0) {
+                        for (int i = 0; i < size; i++) {
+                            System.out.print(queue[(front + i) % capacity]);
+                            if (i < size - 1) System.out.print(" ");
+                        }
+                        System.out.println();
+                    }
+                    break;
+            }
+        }
+        
+        sc.close();
+    }
+}
+________________________________________
+Q8. Generate Binary Numbers from 1 to N using Queue
+Solution 1: Using Queue
+java
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class BinaryNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        Queue<String> queue = new LinkedList<>();
+        queue.add("1");
+        
+        for (int i = 0; i < n; i++) {
+            String current = queue.poll();
+            System.out.print(current);
+            if (i < n - 1) System.out.print(" ");
+            
+            queue.add(current + "0");
+            queue.add(current + "1");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+Solution 2: Without Queue (Using toBinaryString)
+java
+import java.util.Scanner;
+
+public class BinaryNumbersSimple {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        for (int i = 1; i <= n; i++) {
+            System.out.print(Integer.toBinaryString(i));
+            if (i < n) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+Solution 3: Manual Binary Conversion
+java
+import java.util.Scanner;
+
+public class BinaryNumbersManual {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        for (int i = 1; i <= n; i++) {
+            System.out.print(toBinary(i));
+            if (i < n) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+    
+    static String toBinary(int num) {
+        if (num == 0) return "0";
+        
+        StringBuilder binary = new StringBuilder();
+        while (num > 0) {
+            binary.insert(0, num % 2);
+            num /= 2;
+        }
+        return binary.toString();
+    }
+}
+________________________________________
+Q9. Sum of Digits using Recursion
+Solution 1: Basic Recursion
+java
+import java.util.Scanner;
+
+public class SumOfDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        System.out.println(sumDigits(n));
+        
+        sc.close();
+    }
+    
+    static int sumDigits(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        return (n % 10) + sumDigits(n / 10);
+    }
+}
+Solution 2: With Absolute Value
+java
+import java.util.Scanner;
+
+public class SumOfDigitsAbs {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        System.out.println(sumDigits(Math.abs(n)));
+        
+        sc.close();
+    }
+    
+    static int sumDigits(int n) {
+        return (n == 0) ? 0 : (n % 10) + sumDigits(n / 10);
+    }
+}
+Solution 3: Tail Recursion
+java
+import java.util.Scanner;
+
+public class SumOfDigitsTail {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        System.out.println(sumDigits(n, 0));
+        
+        sc.close();
+    }
+    
+    static int sumDigits(int n, int acc) {
+        if (n == 0) {
+            return acc;
+        }
+        return sumDigits(n / 10, acc + (n % 10));
+    }
+}
+________________________________________
+Q10. Tower of Hanoi
+Solution 1: Classic Recursion
+java
+import java.util.Scanner;
+
+public class TowerOfHanoi {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        solveHanoi(n, 'A', 'C', 'B');
+        
+        sc.close();
+    }
+    
+    static void solveHanoi(int n, char source, char destination, char auxiliary) {
+        if (n == 1) {
+            System.out.println("Move disk 1 from " + source + " to " + destination);
+            return;
+        }
+        
+        solveHanoi(n - 1, source, auxiliary, destination);
+        System.out.println("Move disk " + n + " from " + source + " to " + destination);
+        solveHanoi(n - 1, auxiliary, destination, source);
+    }
+}
+Solution 2: With Move Counter
+java
+import java.util.Scanner;
+
+public class TowerOfHanoiCount {
+    static int moveCount = 0;
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        solveHanoi(n, 'A', 'C', 'B');
+        System.out.println("Total moves: " + moveCount);
+        
+        sc.close();
+    }
+    
+    static void solveHanoi(int n, char src, char dest, char aux) {
+        if (n == 1) {
+            moveCount++;
+            System.out.println("Move disk 1 from " + src + " to " + dest);
+            return;
+        }
+        
+        solveHanoi(n - 1, src, aux, dest);
+        moveCount++;
+        System.out.println("Move disk " + n + " from " + src + " to " + dest);
+        solveHanoi(n - 1, aux, dest, src);
+    }
+}
+
+DSA Lab Exam Practice Questions - Part 2 (Q11-Q15)
+________________________________________
+Q11. Linear Search
+Solution 1: Basic Linear Search
+java
+import java.util.Scanner;
+
+public class LinearSearch {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int position = linearSearch(arr, key);
+        System.out.println(position);
+        
+        sc.close();
+    }
+    
+    static int linearSearch(int[] arr, int key) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == key) {
+                return i + 1; // 1-based index
+            }
+        }
+        return -1;
+    }
+}
+Solution 2: Without Helper Method
+java
+import java.util.Scanner;
+
+public class LinearSearchSimple {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        int position = -1;
+        
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == key) {
+                position = i + 1;
+                break;
+            }
+        }
+        
+        System.out.println(position);
+        
+        sc.close();
+    }
+}
+Solution 3: Using Enhanced For Loop
+java
+import java.util.Scanner;
+
+public class LinearSearchEnhanced {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        int index = 0;
+        boolean found = false;
+        
+        for (int num : arr) {
+            index++;
+            if (num == key) {
+                System.out.println(index);
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            System.out.println(-1);
+        }
+        
+        sc.close();
+    }
+}
+Solution 4: Recursive Linear Search
+java
+import java.util.Scanner;
+
+public class LinearSearchRecursive {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int position = search(arr, key, 0);
+        System.out.println(position);
+        
+        sc.close();
+    }
+    
+    static int search(int[] arr, int key, int index) {
+        if (index >= arr.length) {
+            return -1;
+        }
+        
+        if (arr[index] == key) {
+            return index + 1; // 1-based
+        }
+        
+        return search(arr, key, index + 1);
+    }
+}
+________________________________________
+Q12. Binary Search
+Solution 1: Iterative Binary Search
+java
+import java.util.Scanner;
+
+public class BinarySearch {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int position = binarySearch(arr, key);
+        System.out.println(position);
+        
+        sc.close();
+    }
+    
+    static int binarySearch(int[] arr, int key) {
+        int left = 0, right = arr.length - 1;
+        
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            
+            if (arr[mid] == key) {
+                return mid + 1; // 1-based index
+            } else if (arr[mid] < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        return -1;
+    }
+}
+Solution 2: Without Helper Method
+java
+import java.util.Scanner;
+
+public class BinarySearchSimple {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int left = 0, right = n - 1;
+        int position = -1;
+        
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            
+            if (arr[mid] == key) {
+                position = mid + 1;
+                break;
+            } else if (arr[mid] < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        
+        System.out.println(position);
+        
+        sc.close();
+    }
+}
+Solution 3: Recursive Binary Search
+java
+import java.util.Scanner;
+
+public class BinarySearchRecursive {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int position = binarySearch(arr, key, 0, n - 1);
+        System.out.println(position);
+        
+        sc.close();
+    }
+    
+    static int binarySearch(int[] arr, int key, int left, int right) {
+        if (left > right) {
+            return -1;
+        }
+        
+        int mid = left + (right - left) / 2;
+        
+        if (arr[mid] == key) {
+            return mid + 1; // 1-based
+        } else if (arr[mid] < key) {
+            return binarySearch(arr, key, mid + 1, right);
+        } else {
+            return binarySearch(arr, key, left, mid - 1);
+        }
+    }
+}
+Solution 4: Using Arrays.binarySearch()
+java
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class BinarySearchBuiltIn {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int key = sc.nextInt();
+        
+        int index = Arrays.binarySearch(arr, key);
+        
+        if (index >= 0) {
+            System.out.println(index + 1); // Convert to 1-based
+        } else {
+            System.out.println(-1);
+        }
+        
+        sc.close();
+    }
+}
+________________________________________
+Q13. Bubble Sort
+Solution 1: Basic Bubble Sort
+java
+import java.util.Scanner;
+
+public class BubbleSort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        bubbleSort(arr);
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+    
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    // Swap
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+}
+Solution 2: Optimized Bubble Sort (with flag)
+java
+import java.util.Scanner;
+
+public class BubbleSortOptimized {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        bubbleSort(arr);
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+    
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        
+        for (int i = 0; i < n - 1; i++) {
+            boolean swapped = false;
+            
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+            
+            // If no swap occurred, array is sorted
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+}
+Solution 3: Inline (Without Helper Method)
+java
+import java.util.Scanner;
+
+public class BubbleSortInline {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        // Bubble Sort
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+Solution 4: Reverse Order (Largest First)
+java
+import java.util.Scanner;
+
+public class BubbleSortReverse {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        // Bubble sort from end
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
+
 Q1. Tower of Hanoi
 Problem:
 Move n disks from source rod to destination rod using an auxiliary rod, following these rules:
